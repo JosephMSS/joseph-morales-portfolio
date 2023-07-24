@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 
 import { images } from "../../constants";
 import "./Header.scss";
+import { AppWrap } from "../../wrapper/AppWrap.wrapper";
+import { NAVIGATION_ITEMS } from "../../models";
 
 const scaleVariants = {
   whileInView: {
@@ -14,7 +16,7 @@ const scaleVariants = {
   },
 };
 
-export const Header = () => (
+const Header = () => (
   <div className="app__header app__flex">
     <motion.div
       whileInView={{ x: [-100, 0], opacity: [0, 1] }}
@@ -65,3 +67,4 @@ export const Header = () => (
     </motion.div>
   </div>
 );
+export default AppWrap({ Component: Header, idName: NAVIGATION_ITEMS.HOME });
