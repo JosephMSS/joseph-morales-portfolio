@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { images } from "../../constants/images";
 import "./About.scss";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { fetchAboutData } from "./services";
 import { aboutDataAdapter } from "./adapters/about.adapter";
+import { AppWrap } from "../../wrapper/AppWrap.wrapper";
+import { NAVIGATION_ITEMS } from "../../models";
+
 export const About = () => {
   const [aboutData, setAboutData] = useState([]);
   const getAboutData = async () => {
@@ -50,3 +52,4 @@ export const About = () => {
     </>
   );
 };
+export default AppWrap({ Component: About, idName: NAVIGATION_ITEMS.ABOUT });
