@@ -3,9 +3,10 @@ import { HiMenuAlt4, HiX } from "react-icons/hi";
 import { motion } from "framer-motion";
 import "./Navbar.scss";
 import { useState } from "react";
+import { NAVIGATION_ITEMS_LIST } from "../../models";
 
 export const Navbar = () => {
-  const navItems = ["home", "work", "skills", "contact"];
+  const navItems = NAVIGATION_ITEMS_LIST;
   const [toggle, setToggle] = useState(false);
   const enableToggle = () => setToggle(true);
   const disableToggle = () => setToggle(false);
