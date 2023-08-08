@@ -33,7 +33,7 @@ export const Navbar = () => {
               x: [300, 0],
             }}
             transition={{
-              duration: 0.05,
+              duration: 0.10,
               ease: "easeOut",
             }}
           >

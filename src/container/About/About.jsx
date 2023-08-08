@@ -7,7 +7,7 @@ import { aboutDataAdapter } from "./adapters/about.adapter";
 import { AppWrap } from "../../wrapper/AppWrap.wrapper";
 import { NAVIGATION_ITEMS } from "../../models";
 
-export const About = () => {
+export const AboutComponent = () => {
   const [aboutData, setAboutData] = useState([]);
   const getAboutData = async () => {
     const response = await fetchAboutData();
@@ -52,4 +52,7 @@ export const About = () => {
     </>
   );
 };
-export default AppWrap({ Component: About, idName: NAVIGATION_ITEMS.ABOUT });
+export const About = AppWrap({
+  Component: AboutComponent,
+  idName: NAVIGATION_ITEMS.ABOUT,
+});

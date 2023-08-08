@@ -16,7 +16,7 @@ const scaleVariants = {
   },
 };
 
-const Header = () => (
+const HeaderComponent = () => (
   <div className="app__header app__flex">
     <motion.div
       whileInView={{ x: [-100, 0], opacity: [0, 1] }}
@@ -67,4 +67,7 @@ const Header = () => (
     </motion.div>
   </div>
 );
-export default AppWrap({ Component: Header, idName: NAVIGATION_ITEMS.HOME });
+export const Header = AppWrap({
+  Component: HeaderComponent,
+  idName: NAVIGATION_ITEMS.HOME,
+});
