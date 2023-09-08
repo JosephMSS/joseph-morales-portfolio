@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
-import "./Work.scss";
+import { useEffect, useState } from "react";
 import { AiFillEye, AiFillGithub } from "react-icons/ai";
-import { AppWrap } from "../../wrapper";
 import { NAVIGATION_ITEMS } from "../../models";
-import { CATEGORY_LIST, CATEGORIES } from "./models";
-import { useState, useEffect } from "react";
-import { fetchWorkData } from "./services";
+import { AppWrap } from "../../wrapper";
+import "./Work.scss";
 import { workDataAdapter } from "./adapters";
-const WorkComponent = () => {
+import { CATEGORIES, CATEGORY_LIST } from "./models";
+import { fetchWorkData } from "./services";
+const Work = () => {
   const HIDE_ANIMATE_CARD = { y: 100, opacity: 0 };
   const SHOW_ANIMATE_CARD = { y: 0, opacity: 1 };
   const [activeFilter, setActiveFilter] = useState(CATEGORIES.ALL);
@@ -120,7 +120,7 @@ const WorkComponent = () => {
     </>
   );
 };
-export const Work = AppWrap({
-  Component: WorkComponent,
+export const WorkWithWrap = AppWrap({
+  Component: Work,
   idName: NAVIGATION_ITEMS.WORK,
 });
