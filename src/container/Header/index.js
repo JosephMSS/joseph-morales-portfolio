@@ -1,2 +1,1 @@
-export * from './Header.jsx';
-export * from './index.js';
+export { default as Header } from './Header.jsx';

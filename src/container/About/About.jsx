@@ -6,6 +6,7 @@ import { fetchAboutData } from "./services";
 import { aboutDataAdapter } from "./adapters/about.adapter";
 import { AppWrap } from "../../wrapper/AppWrap.wrapper";
 import { NAVIGATION_ITEMS } from "../../models";
+import { MotionWrap } from "../../wrapper";
 
 export const About = () => {
   const [aboutData, setAboutData] = useState([]);
@@ -52,7 +53,9 @@ export const About = () => {
     </>
   );
 };
-export const AboutWithWrap = AppWrap({
-  Component: About,
+const AboutWithWrap = AppWrap({
+  Component: MotionWrap(About, "app__about"),
   idName: NAVIGATION_ITEMS.ABOUT,
+  classNames: "app__whitebg",
 });
+export default AboutWithWrap;

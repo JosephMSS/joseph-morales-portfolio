@@ -1,1 +1,1 @@
-export * from './Work.jsx';
+export { default as Work } from './Work.jsx';

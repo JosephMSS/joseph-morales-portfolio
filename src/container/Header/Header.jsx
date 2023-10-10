@@ -67,7 +67,9 @@ const Header = () => (
     </motion.div>
   </div>
 );
-export const HeaderWithWrap = AppWrap({
+const HeaderWithWrap = AppWrap({
   Component: Header,
   idName: NAVIGATION_ITEMS.HOME,
 });
+
+export default HeaderWithWrap;

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { AiFillEye, AiFillGithub } from "react-icons/ai";
 import { NAVIGATION_ITEMS } from "../../models";
-import { AppWrap } from "../../wrapper";
+import { AppWrap, MotionWrap } from "../../wrapper";
 import "./Work.scss";
 import { workDataAdapter } from "./adapters";
 import { CATEGORIES, CATEGORY_LIST } from "./models";
@@ -38,7 +38,6 @@ const Work = () => {
       setAnimateCard(SHOW_ANIMATE_CARD);
     }, 300);
   };
-
 
   return (
     <>
@@ -120,7 +119,9 @@ const Work = () => {
     </>
   );
 };
-export const WorkWithWrap = AppWrap({
-  Component: Work,
+const WorkWithWrap = AppWrap({
+  Component: MotionWrap(Work, "app__works"),
   idName: NAVIGATION_ITEMS.WORK,
+  classNames: "app__primarybg",
 });
+export default WorkWithWrap;

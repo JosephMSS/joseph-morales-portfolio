@@ -4,7 +4,7 @@ import { Tooltip } from "react-tooltip";
 import "./Skills.scss";
 import { fetchSkillsData, fetchExperienceData } from "./services";
 import { skillDataAdapter, experienceDataAdapter } from "./adapters";
-import { AppWrap } from "../../wrapper";
+import { AppWrap, MotionWrap } from "../../wrapper";
 import { NAVIGATION_ITEMS } from "../../models";
 export const Skills = () => {
   const [skills, setSkills] = useState([]);
@@ -54,13 +54,12 @@ export const Skills = () => {
               </div>
               <motion.div className="app__skills-exp-works">
                 {experience.works.map((work) => (
-                  <>
+                  <div key={work.name}>
                     <motion.div
                       whileInView={{ opacity: [0, 1] }}
                       transition={{ duration: 0.5 }}
                       className="app__skills-exp-work"
                       data-tooltip-id={work.name}
-                      key={work.name}
                     >
                       <h4 className="bold-text">{work.name}</h4>
                       <p className="p-text">{work.company}</p>
@@ -72,7 +71,7 @@ export const Skills = () => {
                       arrowColor="#fff"
                       className="skills-tooltip"
                     />
-                  </>
+                  </div>
                 ))}
               </motion.div>
             </motion.div>
@@ -82,7 +81,10 @@ export const Skills = () => {
     </>
   );
 };
-export const SkillsWithWrap = AppWrap({
-  Component: Skills,
+
+const SkillsWithWrap = AppWrap({
+  Component: MotionWrap(Skills, "app__skills"),
   idName: NAVIGATION_ITEMS.SKILLS,
+  classNames: "app__whitebg",
 });
+export default SkillsWithWrap;
