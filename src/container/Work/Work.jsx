@@ -5,14 +5,35 @@ import { NAVIGATION_ITEMS } from "../../models";
 import { AppWrap, MotionWrap } from "../../wrapper";
 import "./Work.scss";
 import { workDataAdapter } from "./adapters";
-import { CATEGORIES, CATEGORY_LIST } from "./models";
-import { fetchWorkData } from "./services";
+import { CATEGORIES } from "./models";
+import { findCategoryService, findWorkService } from "./services";
+import useFetchAndLoad from "../../hooks/useClient/useFetchAndLoad";
+import { findCategoriesAdapter } from "./adapters/find-categories.adapter";
+import { STATUS } from "../../hooks/useClient/models/status.model";
 const Work = () => {
   const HIDE_ANIMATE_CARD = { y: 100, opacity: 0 };
   const SHOW_ANIMATE_CARD = { y: 0, opacity: 1 };
   const [activeFilter, setActiveFilter] = useState(CATEGORIES.ALL);
+  const [categories, setCategories] = useState([CATEGORIES.ALL]);
   const [animateCard, setAnimateCard] = useState(SHOW_ANIMATE_CARD);
   const [works, setWorks] = useState([]);
+
+  const { callEndpoint: callEndpointWork, status: workStatus } =
+    useFetchAndLoad();
+  const { callEndpoint: callEndpointCategories, status: categoriesStatus } =
+    useFetchAndLoad();
+
+  const fetchWork = async () => {
+    const response = await callEndpointWork(findWorkService());
+    const adaptedData = workDataAdapter(response);
+    setWorks(adaptedData);
+    setFilterWork(adaptedData);
+  };
+  const fetchCategories = async () => {
+    const response = await callEndpointCategories(findCategoryService());
+    const adaptedData = findCategoriesAdapter(response);
+    setCategories(adaptedData);
+  };
   const [filterWork, setFilterWork] = useState([]);
   const filterCategories = ({ category }) => {
     if (category == CATEGORIES.ALL) return works;
@@ -20,14 +41,10 @@ const Work = () => {
       return work.tags.includes(category);
     });
   };
-  const getWorkData = async () => {
-    const response = await fetchWorkData();
-    const adaptedData = workDataAdapter(response);
-    setWorks(adaptedData);
-    setFilterWork(adaptedData);
-  };
+
   useEffect(() => {
-    getWorkData();
+    fetchWork();
+    fetchCategories();
   }, []);
   const handleWorkFilter = ({ category }) => {
     setActiveFilter(category);
@@ -46,19 +63,20 @@ const Work = () => {
       </h2>
 
       <div className="app__work-filter">
-        {CATEGORY_LIST.map((category, index) => (
-          <div
-            key={index}
-            onClick={() => {
-              handleWorkFilter({ category });
-            }}
-            className={`app__work-filter-item app__flex p-text ${
-              activeFilter === category ? "item-active" : ""
-            }`}
-          >
-            {category}
-          </div>
-        ))}
+        {categoriesStatus === STATUS.SUCCESS &&
+          categories.map((category, index) => (
+            <div
+              key={index}
+              onClick={() => {
+                handleWorkFilter({ category });
+              }}
+              className={`app__work-filter-item app__flex p-text ${
+                activeFilter === category ? "item-active" : ""
+              }`}
+            >
+              {category}
+            </div>
+          ))}
       </div>
 
       <motion.div
@@ -105,12 +123,13 @@ const Work = () => {
 
             <div className="app__work-content app__flex">
               <h4 className="bold-text">{work.name}</h4>
-              <p className="p-text" style={{ marginTop: 10 }}>
+              <p className="p-text truncate-text" style={{ marginTop: 10 }}>
                 {work.description}
               </p>
 
               <div className="app__work-tag app__flex">
                 <p className="p-text">{work.tags[0]}</p>
+                {/* TODO: create badge for tags https://flowbite.com/docs/components/badge/ */}
               </div>
             </div>
           </div>
