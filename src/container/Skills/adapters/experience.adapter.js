@@ -11,7 +11,6 @@ export const experienceDataAdapter = (data) => {
       year: experience.year,
       works: experience.works.map(worksAdapter),
     };
-    console.log("🚀 ~ file: experience.adapter.js:14 ~ response ~ adaptedExperience:", adaptedExperience)
     return adaptedExperience;
   });
   return response;

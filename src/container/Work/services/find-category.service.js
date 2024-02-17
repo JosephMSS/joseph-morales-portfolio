@@ -16,4 +16,3 @@ export const findCategoryService = () => {
   };
 };
 findCategoryService();
-console.log("🚀 ~ findCategoryService():", findCategoryService());

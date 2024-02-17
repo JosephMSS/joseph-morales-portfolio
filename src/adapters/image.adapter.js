@@ -4,6 +4,5 @@ const builder = imageUrlBuilder(client);
 
 export function imageAdapter(url) {
   const adapter = builder.image(url);
-  console.log("🚀 ~ imageAdapter ~ adapter:", adapter);
   return adapter;
 }

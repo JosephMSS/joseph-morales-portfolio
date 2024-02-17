@@ -9,39 +9,33 @@ import { AppWrap, MotionWrap } from "../../wrapper";
 import "./Work.scss";
 import { findCategoriesAdapter } from "./adapters/find-categories.adapter";
 import { CATEGORIES } from "./models";
-import {
-  findCategoryService,
-  findWorkService
-} from "./services";
+import { findCategoryService, findWorkService } from "./services";
 const Work = () => {
-  const {
-    data: works,
-    isLoading: isLoadingWorks,
-    isSuccess: isSuccessWorks,
-  } = useQuery({
-    queryFn: ({ signal }) => {
-      return findWorkService({ signal });
-    },
-  });
   const HIDE_ANIMATE_CARD = { y: 100, opacity: 0 };
   const SHOW_ANIMATE_CARD = { y: 0, opacity: 1 };
+  
   const [activeFilter, setActiveFilter] = useState(CATEGORIES.ALL);
   const [categories, setCategories] = useState([CATEGORIES.ALL]);
   const [animateCard, setAnimateCard] = useState(SHOW_ANIMATE_CARD);
+  const [filterWork, setFilterWork] = useState([]);
+
+  const { data: works } = useQuery({
+    queryFn: ({ signal }) => {
+      return findWorkService({ signal });
+    },
+    onSuccess: (works) => {
+      setFilterWork(works);
+    },
+  });
+
   const { callEndpoint: callEndpointCategories, status: categoriesStatus } =
     useFetchAndLoad();
-  useEffect(() => {
-    if (!isLoadingWorks && isSuccessWorks) {
-      setFilterWork(works);
-    }
-  }, [works, isLoadingWorks, isSuccessWorks]);
 
   const fetchCategories = async () => {
     const response = await callEndpointCategories(findCategoryService());
     const adaptedData = findCategoriesAdapter(response);
     setCategories(adaptedData);
   };
-  const [filterWork, setFilterWork] = useState([]);
   const filterCategories = ({ category }) => {
     if (category == CATEGORIES.ALL) return works;
     return works.filter((work) => {
