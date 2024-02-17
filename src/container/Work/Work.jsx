@@ -1,20 +1,18 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { AiFillEye, AiFillGithub } from "react-icons/ai";
+import { useQuery } from "react-query";
+import { STATUS } from "../../hooks/useClient/models/status.model";
+import useFetchAndLoad from "../../hooks/useClient/useFetchAndLoad";
 import { NAVIGATION_ITEMS } from "../../models";
 import { AppWrap, MotionWrap } from "../../wrapper";
 import "./Work.scss";
-import { workDataAdapter } from "./adapters";
+import { findCategoriesAdapter } from "./adapters/find-categories.adapter";
 import { CATEGORIES } from "./models";
 import {
   findCategoryService,
-  findWorkService,
-  findWorkServiceByReactQuery,
+  findWorkService
 } from "./services";
-import useFetchAndLoad from "../../hooks/useClient/useFetchAndLoad";
-import { findCategoriesAdapter } from "./adapters/find-categories.adapter";
-import { STATUS } from "../../hooks/useClient/models/status.model";
-import { useQuery } from "react-query";
 const Work = () => {
   const {
     data: works,
@@ -22,7 +20,7 @@ const Work = () => {
     isSuccess: isSuccessWorks,
   } = useQuery({
     queryFn: ({ signal }) => {
-      return findWorkServiceByReactQuery({ signal });
+      return findWorkService({ signal });
     },
   });
   const HIDE_ANIMATE_CARD = { y: 100, opacity: 0 };
