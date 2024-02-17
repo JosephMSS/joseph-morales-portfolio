@@ -6,29 +6,38 @@ import { AppWrap, MotionWrap } from "../../wrapper";
 import "./Work.scss";
 import { workDataAdapter } from "./adapters";
 import { CATEGORIES } from "./models";
-import { findCategoryService, findWorkService } from "./services";
+import {
+  findCategoryService,
+  findWorkService,
+  findWorkServiceByReactQuery,
+} from "./services";
 import useFetchAndLoad from "../../hooks/useClient/useFetchAndLoad";
 import { findCategoriesAdapter } from "./adapters/find-categories.adapter";
 import { STATUS } from "../../hooks/useClient/models/status.model";
+import { useQuery } from "react-query";
 const Work = () => {
+  const {
+    data: works,
+    isLoading: isLoadingWorks,
+    isSuccess: isSuccessWorks,
+  } = useQuery({
+    queryFn: ({ signal }) => {
+      return findWorkServiceByReactQuery({ signal });
+    },
+  });
   const HIDE_ANIMATE_CARD = { y: 100, opacity: 0 };
   const SHOW_ANIMATE_CARD = { y: 0, opacity: 1 };
   const [activeFilter, setActiveFilter] = useState(CATEGORIES.ALL);
   const [categories, setCategories] = useState([CATEGORIES.ALL]);
   const [animateCard, setAnimateCard] = useState(SHOW_ANIMATE_CARD);
-  const [works, setWorks] = useState([]);
-
-  const { callEndpoint: callEndpointWork, status: workStatus } =
-    useFetchAndLoad();
   const { callEndpoint: callEndpointCategories, status: categoriesStatus } =
     useFetchAndLoad();
+  useEffect(() => {
+    if (!isLoadingWorks && isSuccessWorks) {
+      setFilterWork(works);
+    }
+  }, [works, isLoadingWorks, isSuccessWorks]);
 
-  const fetchWork = async () => {
-    const response = await callEndpointWork(findWorkService());
-    const adaptedData = workDataAdapter(response);
-    setWorks(adaptedData);
-    setFilterWork(adaptedData);
-  };
   const fetchCategories = async () => {
     const response = await callEndpointCategories(findCategoryService());
     const adaptedData = findCategoriesAdapter(response);
@@ -43,7 +52,6 @@ const Work = () => {
   };
 
   useEffect(() => {
-    fetchWork();
     fetchCategories();
   }, []);
   const handleWorkFilter = ({ category }) => {
