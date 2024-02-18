@@ -1,8 +1,9 @@
 class Experience {
-  constructor({ name, company, description }) {
+  constructor({ name, company, description, date}) {
     this.name = name;
     this.company = company;
     this.description = description;
+    this.date = date;
   }
 }
 const createExperience = ({ name, company, description }) =>
@@ -25,3 +26,4 @@ export const experienceData = [
     ],
   },
 ];
+const experience=[]

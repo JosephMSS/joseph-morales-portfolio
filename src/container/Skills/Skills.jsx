@@ -13,22 +13,27 @@ import {
   ItemTimeline,
   TitleTimeline,
 } from "../../components/Timeline";
+import { useQuery } from "react-query";
+import { findExperienceService } from "./services/find-experience.service";
 export const Skills = () => {
+  const { data: experiences } = useQuery({
+    queryKey: "experiences",
+    queryFn: ({ signal }) => {
+      return findExperienceService({ signal });
+    },
+    initialData: [],
+    onSuccess: (data) => {
+      console.log("🚀 ~ Skills ~ data:", data);
+    },
+  });
   const [skills, setSkills] = useState([]);
-  const [experiences, setExperiences] = useState([]);
   const getSkillsData = async () => {
     const response = await fetchSkillsData();
     const adaptedData = skillDataAdapter(response);
     setSkills(adaptedData);
   };
-  const getExperienceData = async () => {
-    const response = await fetchExperienceData();
-    const adaptedData = experienceDataAdapter(response);
-    setExperiences(adaptedData);
-  };
   useEffect(() => {
     getSkillsData();
-    getExperienceData();
   }, []);
   return (
     <>
@@ -54,22 +59,18 @@ export const Skills = () => {
           ))}
         </motion.div>
         <div className="app__skills-exp">
-          {experiences.map((experience, indexEx) => (
-            <motion.div className="app__skills-exp-item" key={experience.year}>
-                <ContainerTimeline key={indexEx}>
-                  {experience.works.map((work, index) => (
-                    <ItemTimeline key={index}>
-                      <DateTimeline>{experience.year}</DateTimeline>
-                      <TitleTimeline>{work.name}</TitleTimeline>
-                      <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
-                        {work.company}
-                      </time>
-                      <DescriptionTimeline>{work.desc}</DescriptionTimeline>
-                    </ItemTimeline>
-                  ))}
-                </ContainerTimeline>
-            </motion.div>
-          ))}
+          <ContainerTimeline>
+            {experiences.map((work, index) => (
+              <ItemTimeline key={index}>
+                <DateTimeline>{work.from}-{work.to}</DateTimeline>
+                <TitleTimeline>{work.jobTitle}</TitleTimeline>
+                <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+                  {work.company}
+                </time>
+                <DescriptionTimeline>{work.description}</DescriptionTimeline>
+              </ItemTimeline>
+            ))}
+          </ContainerTimeline>
         </div>
       </div>
     </>

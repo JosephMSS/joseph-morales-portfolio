@@ -13,6 +13,7 @@ specifiers:
   eslint-plugin-react-refresh: ^0.4.1
   flowbite: ^2.3.0
   framer-motion: ^10.12.18
+  luxon: ^3.4.4
   postcss: ^8.4.35
   react: ^18.2.0
   react-dom: ^18.2.0
@@ -28,6 +29,7 @@ dependencies:
   '@sanity/image-url': 1.0.2
   flowbite: 2.3.0
   framer-motion: 10.12.18_biqbaboplfbrettd7655fr4n2y
+  luxon: 3.4.4
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-icons: 4.10.1_react@18.2.0
@@ -2015,6 +2017,11 @@ packages:
     dependencies:
       yallist: 3.1.1
     dev: true
+
+  /luxon/3.4.4:
+    resolution: {integrity: sha512-zobTr7akeGHnv7eBOXcRgMeCP6+uyYsczwmeRCauvpvaAltgNyTbLH/+VaEAPUeWBT+1GuNmz4wC/6jtQzbbVA==}
+    engines: {node: '>=12'}
+    dev: false
 
   /match-sorter/6.3.4:
     resolution: {integrity: sha512-jfZW7cWS5y/1xswZo8VBOdudUiSd9nifYRWphc9M5D/ee4w4AoXLgBEdRbgVaxbMuagBPeUC5y2Hi8DO6o9aDg==}
