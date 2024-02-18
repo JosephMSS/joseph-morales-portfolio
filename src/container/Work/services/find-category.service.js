@@ -1,18 +1,13 @@
 import { client } from "../../../libs/httpClient/sanity.lib";
-import { loadAbort } from "../../../utils/loadAbort.util";
+import { findCategoriesAdapter } from "../adapters/find-categories.adapter";
 const categoriesQuery = '*[_type == "categories"]';
-export const findCategoryService = () => {
-  const controller = loadAbort();
-  return {
-    id: "findCategoryService",
-    call: client.fetch(
-      categoriesQuery,
-      {},
-      {
-        signal: controller.signal,
-      }
-    ),
-    controller,
-  };
+export const findCategoryService = async ({ signal }) => {
+  const categories = await client.fetch(
+    categoriesQuery,
+    {},
+    {
+      signal,
+    }
+  );
+  return findCategoriesAdapter(categories);
 };
-findCategoryService();
