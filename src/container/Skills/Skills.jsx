@@ -6,6 +6,13 @@ import { fetchSkillsData, fetchExperienceData } from "./services";
 import { skillDataAdapter, experienceDataAdapter } from "./adapters";
 import { AppWrap, MotionWrap } from "../../wrapper";
 import { NAVIGATION_ITEMS } from "../../models";
+import {
+  ContainerTimeline,
+  DateTimeline,
+  DescriptionTimeline,
+  ItemTimeline,
+  TitleTimeline,
+} from "../../components/Timeline";
 export const Skills = () => {
   const [skills, setSkills] = useState([]);
   const [experiences, setExperiences] = useState([]);
@@ -47,33 +54,20 @@ export const Skills = () => {
           ))}
         </motion.div>
         <div className="app__skills-exp">
-          {experiences.map((experience) => (
+          {experiences.map((experience, indexEx) => (
             <motion.div className="app__skills-exp-item" key={experience.year}>
-              <div className="app__skills-exp-year">
-                <p className="bold-text">{experience.year}</p>
-              </div>
-              <motion.div className="app__skills-exp-works">
-                {experience.works.map((work) => (
-                  <div key={work.name}>
-                    <motion.div
-                      whileInView={{ opacity: [0, 1] }}
-                      transition={{ duration: 0.5 }}
-                      className="app__skills-exp-work"
-                      data-tooltip-id={work.name}
-                    >
-                      <h4 className="bold-text">{work.name}</h4>
-                      <p className="p-text">{work.company}</p>
-                    </motion.div>
-                    <Tooltip
-                      id={work.name}
-                      content={work.desc}
-                      effect="solid"
-                      arrowColor="#fff"
-                      className="skills-tooltip"
-                    />
-                  </div>
-                ))}
-              </motion.div>
+                <ContainerTimeline key={indexEx}>
+                  {experience.works.map((work, index) => (
+                    <ItemTimeline key={index}>
+                      <DateTimeline>{experience.year}</DateTimeline>
+                      <TitleTimeline>{work.name}</TitleTimeline>
+                      <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+                        {work.company}
+                      </time>
+                      <DescriptionTimeline>{work.desc}</DescriptionTimeline>
+                    </ItemTimeline>
+                  ))}
+                </ContainerTimeline>
             </motion.div>
           ))}
         </div>
