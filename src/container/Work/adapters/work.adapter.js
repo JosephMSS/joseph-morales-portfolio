@@ -6,8 +6,8 @@ export const workDataAdapter = (data) => {
     name: data.title,
     description: data.description,
     tags: data?.tags.map((category) => category.name),
-    projectLink: data?.projectLink || null,
-    codeLink: data?.codeLink || null,
+    projectLink: data?.projectLink || "",
+    codeLink: data?.codeLink || "",
     imgUrl: data.imgUrl ? imageAdapter(data.imgUrl).auto("format").url() : "",
   }));
   return response;
