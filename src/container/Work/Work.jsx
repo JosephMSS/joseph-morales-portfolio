@@ -2,22 +2,24 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { AiFillEye, AiFillGithub } from "react-icons/ai";
 import { useQuery } from "react-query";
-import { STATUS } from "../../hooks/useClient/models/status.model";
-import useFetchAndLoad from "../../hooks/useClient/useFetchAndLoad";
 import { NAVIGATION_ITEMS } from "../../models";
 import { AppWrap, MotionWrap } from "../../wrapper";
 import "./Work.scss";
-import { findCategoriesAdapter } from "./adapters/find-categories.adapter";
-import { CATEGORIES } from "./models";
-import { findCategoryService, findWorkService } from "./services";
+import { CATEGORIES, CATEGORY_LIST } from "./models";
+import {
+  findCategoryService,
+  findWorkService,
+} from "./services";
 const Work = () => {
   const HIDE_ANIMATE_CARD = { y: 100, opacity: 0 };
   const SHOW_ANIMATE_CARD = { y: 0, opacity: 1 };
-  
+
   const [activeFilter, setActiveFilter] = useState(CATEGORIES.ALL);
-  const [categories, setCategories] = useState([CATEGORIES.ALL]);
   const [animateCard, setAnimateCard] = useState(SHOW_ANIMATE_CARD);
   const [filterWork, setFilterWork] = useState([]);
+  useEffect(() => {
+    return () => {};
+  }, [filterWork]);
 
   const { data: works } = useQuery({
     queryFn: ({ signal }) => {
@@ -26,16 +28,15 @@ const Work = () => {
     onSuccess: (works) => {
       setFilterWork(works);
     },
+    queryKey: ["works"],
   });
-
-  const { callEndpoint: callEndpointCategories, status: categoriesStatus } =
-    useFetchAndLoad();
-
-  const fetchCategories = async () => {
-    const response = await callEndpointCategories(findCategoryService());
-    const adaptedData = findCategoriesAdapter(response);
-    setCategories(adaptedData);
-  };
+  const { data: categories } = useQuery({
+    queryFn: ({ signal }) => {
+      return findCategoryService({ signal });
+    },
+    initialData: CATEGORY_LIST,
+    queryKey: ["categories"],
+  });
   const filterCategories = ({ category }) => {
     if (category == CATEGORIES.ALL) return works;
     return works.filter((work) => {
@@ -43,9 +44,6 @@ const Work = () => {
     });
   };
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
   const handleWorkFilter = ({ category }) => {
     setActiveFilter(category);
     setAnimateCard(HIDE_ANIMATE_CARD);
@@ -63,7 +61,7 @@ const Work = () => {
       </h2>
 
       <div className="app__work-filter">
-        {categoriesStatus === STATUS.SUCCESS &&
+        {categories &&
           categories.map((category, index) => (
             <div
               key={index}
@@ -84,7 +82,7 @@ const Work = () => {
         transition={{ duration: 0.5, delayChildren: 0.5 }}
         className="app__work-portfolio"
       >
-        {filterWork.map((work, index) => (
+        {works?.map((work, index) => (
           <div className="app__work-item app__flex" key={index}>
             <div className="app__work-img app__flex">
               <img src={work.imgUrl} alt={work.name} />
