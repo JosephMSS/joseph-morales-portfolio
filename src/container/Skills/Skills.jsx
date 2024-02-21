@@ -1,11 +1,5 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import { Tooltip } from "react-tooltip";
-import "./Skills.scss";
-import { fetchSkillsData, fetchExperienceData } from "./services";
-import { skillDataAdapter, experienceDataAdapter } from "./adapters";
-import { AppWrap, MotionWrap } from "../../wrapper";
-import { NAVIGATION_ITEMS } from "../../models";
+import { useQuery } from "react-query";
 import {
   ContainerTimeline,
   DateTimeline,
@@ -13,7 +7,9 @@ import {
   ItemTimeline,
   TitleTimeline,
 } from "../../components/Timeline";
-import { useQuery } from "react-query";
+import { NAVIGATION_ITEMS } from "../../models";
+import { AppWrap, MotionWrap } from "../../wrapper";
+import "./Skills.scss";
 import { findExperienceService } from "./services/find-experience.service";
 import { findSkillsService } from "./services/find-skills.service";
 export const Skills = () => {
