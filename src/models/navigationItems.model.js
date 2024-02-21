@@ -3,7 +3,7 @@ export const NAVIGATION_ITEMS = {
   WORK: "work",
   SKILLS: "skills",
   CONTACT: "contact",
-  ABOUT: "about",
+  ABOUT: "education",
 };
 export const NAVIGATION_ITEMS_LIST = [
   NAVIGATION_ITEMS.HOME,

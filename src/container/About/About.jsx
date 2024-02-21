@@ -22,8 +22,9 @@ export const About = () => {
   return (
     <>
       <h2 className="head-text">
-        I Know that <span>Good Development</span> <br />
-        means <span>Good Business</span>
+        My Educational Journey:
+        <span> Certificates</span> <br />
+        and<span> Achievements</span>
       </h2>
 
       <div className="app__profiles">
