@@ -15,6 +15,7 @@ import {
 } from "../../components/Timeline";
 import { useQuery } from "react-query";
 import { findExperienceService } from "./services/find-experience.service";
+import { findSkillsService } from "./services/find-skills.service";
 export const Skills = () => {
   const { data: experiences } = useQuery({
     queryKey: "experiences",
@@ -22,19 +23,15 @@ export const Skills = () => {
       return findExperienceService({ signal });
     },
     initialData: [],
-    onSuccess: (data) => {
-      console.log("🚀 ~ Skills ~ data:", data);
-    },
   });
-  const [skills, setSkills] = useState([]);
-  const getSkillsData = async () => {
-    const response = await fetchSkillsData();
-    const adaptedData = skillDataAdapter(response);
-    setSkills(adaptedData);
-  };
-  useEffect(() => {
-    getSkillsData();
-  }, []);
+  const { data: skills } = useQuery({
+    queryKey: "skills",
+    queryFn: ({ signal }) => {
+      return findSkillsService({ signal });
+    },
+    initialData: [],
+  });
+
   return (
     <>
       <h2 className="head-text">Skills & Experiences</h2>
@@ -62,7 +59,9 @@ export const Skills = () => {
           <ContainerTimeline>
             {experiences.map((work, index) => (
               <ItemTimeline key={index}>
-                <DateTimeline>{work.from}-{work.to}</DateTimeline>
+                <DateTimeline>
+                  {work.from}-{work.to}
+                </DateTimeline>
                 <TitleTimeline>{work.jobTitle}</TitleTimeline>
                 <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
                   {work.company}
