@@ -11,6 +11,5 @@ export const profileAdapter = (data) => {
     ),
     profileImage: imageAdapter(data.profileImage).auto("format").url(),
   };
-  console.log("🚀 ~ profileAdapter ~ profile:", profile);
   return profile;
 };
