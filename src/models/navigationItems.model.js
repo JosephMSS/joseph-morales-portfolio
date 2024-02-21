@@ -1,7 +1,7 @@
 export const NAVIGATION_ITEMS = {
   HOME: "home",
-  WORK: "work",
-  SKILLS: "skills",
+  WORK: "projects",
+  SKILLS: "experience",
   CONTACT: "contact",
   ABOUT: "education",
 };
