@@ -1,15 +1,15 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { AiFillEye, AiFillGithub } from "react-icons/ai";
+import { GrInProgress } from "react-icons/gr";
 import { useQuery } from "react-query";
 import { NAVIGATION_ITEMS } from "../../models";
 import { AppWrap, MotionWrap } from "../../wrapper";
 import "./Work.scss";
 import { CATEGORIES, CATEGORY_LIST } from "./models";
-import {
-  findCategoryService,
-  findWorkService,
-} from "./services";
+import { findCategoryService, findWorkService } from "./services";
+import { LinkWithIcon } from "./components/Link-with-icon/Link-with-icon.component";
+import { MdBuildCircle } from "react-icons/md";
 const Work = () => {
   const HIDE_ANIMATE_CARD = { y: 100, opacity: 0 };
   const SHOW_ANIMATE_CARD = { y: 0, opacity: 1 };
@@ -96,32 +96,27 @@ const Work = () => {
                 }}
                 className="app__work-hover app__flex"
               >
-                <a href={work.projectLink} target="_blank" rel="noreferrer">
-                  <motion.div
-                    whileInView={{ scale: [0, 1] }}
-                    whileHover={{ scale: [1, 0.9] }}
-                    transition={{ duration: 0.25 }}
-                    className="app__flex"
-                  >
-                    <AiFillEye />
-                  </motion.div>
-                </a>
-                <a href={work.codeLink} target="_blank" rel="noreferrer">
-                  <motion.div
-                    whileInView={{ scale: [0, 1] }}
-                    whileHover={{ scale: [1, 0.9] }}
-                    transition={{ duration: 0.25 }}
-                    className="app__flex"
-                  >
-                    <AiFillGithub />
-                  </motion.div>
-                </a>
+                {work.hasProjectLink && (
+                  <LinkWithIcon
+                    IconComponent={AiFillEye}
+                    link={work.projectLink}
+                  />
+                )}
+                {work.hasCodeLink && (
+                  <LinkWithIcon
+                    IconComponent={AiFillGithub}
+                    link={work.codeLink}
+                  />
+                )}
+                {work.inProgress && (
+                  <LinkWithIcon IconComponent={MdBuildCircle} />
+                )}
               </motion.div>
             </div>
 
             <div className="app__work-content app__flex">
               <h4 className="bold-text">{work.name}</h4>
-              <p className="p-text truncate-text" style={{ marginTop: 10 }}>
+              <p className="p-text " style={{ marginTop: 10 }}>
                 {work.description}
               </p>
 
