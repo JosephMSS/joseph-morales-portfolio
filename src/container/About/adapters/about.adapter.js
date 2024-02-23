@@ -6,7 +6,7 @@ export const aboutDataAdapter = (data) => {
     title: certificate?.title,
     description: certificate?.description,
     imgUrl: certificate.imageUrl
-      ? imageAdapter(certificate.imageUrl).auto("format").url()
+      ? imageAdapter(certificate.imageUrl).format("webp").url()
       : "",
   }));
   return response;

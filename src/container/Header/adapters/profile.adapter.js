@@ -7,9 +7,9 @@ export const profileAdapter = (data) => {
     greetingIcon: data.greetingIcon,
     mainPositions: data.mainPositions,
     mainTechnologies: data.mainTechnologies.map((technology) =>
-      imageAdapter(technology).auto("format").url()
+      imageAdapter(technology).format("webp").url()
     ),
-    profileImage: imageAdapter(data.profileImage).auto("format").url(),
+    profileImage: imageAdapter(data.profileImage).format("webp").url(),
   };
   return profile;
 };

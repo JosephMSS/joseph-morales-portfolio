@@ -9,7 +9,7 @@ export const workDataAdapter = (data) => {
       tags: data?.tags.map((category) => category.name),
       projectLink: data?.projectLink || "",
       codeLink: data?.codeLink || "",
-      imgUrl: data.imgUrl ? imageAdapter(data.imgUrl).auto("format").url() : "",
+      imgUrl: data.imgUrl ? imageAdapter(data.imgUrl).format('webp').url() : "",
       hasProjectLink: !!data?.projectLink,
       hasCodeLink: !!data?.codeLink,
       inProgress: data?.inProgress || false,
