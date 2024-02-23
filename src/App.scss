@@ -70,6 +70,12 @@
     font-size: 2rem;
   }
 }
+.truncate-text{
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .p-text {
   font-size: 0.8rem;

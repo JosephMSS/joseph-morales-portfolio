@@ -1,28 +1,33 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import { Tooltip } from "react-tooltip";
-import "./Skills.scss";
-import { fetchSkillsData, fetchExperienceData } from "./services";
-import { skillDataAdapter, experienceDataAdapter } from "./adapters";
-import { AppWrap, MotionWrap } from "../../wrapper";
+import { useQuery } from "react-query";
+import {
+  ContainerTimeline,
+  DateTimeline,
+  DescriptionTimeline,
+  ItemTimeline,
+  TitleTimeline,
+} from "../../components/Timeline";
 import { NAVIGATION_ITEMS } from "../../models";
+import { AppWrap, MotionWrap } from "../../wrapper";
+import "./Skills.scss";
+import { findExperienceService } from "./services/find-experience.service";
+import { findSkillsService } from "./services/find-skills.service";
 export const Skills = () => {
-  const [skills, setSkills] = useState([]);
-  const [experiences, setExperiences] = useState([]);
-  const getSkillsData = async () => {
-    const response = await fetchSkillsData();
-    const adaptedData = skillDataAdapter(response);
-    setSkills(adaptedData);
-  };
-  const getExperienceData = async () => {
-    const response = await fetchExperienceData();
-    const adaptedData = experienceDataAdapter(response);
-    setExperiences(adaptedData);
-  };
-  useEffect(() => {
-    getSkillsData();
-    getExperienceData();
-  }, []);
+  const { data: experiences } = useQuery({
+    queryKey: "experiences",
+    queryFn: ({ signal }) => {
+      return findExperienceService({ signal });
+    },
+    initialData: [],
+  });
+  const { data: skills } = useQuery({
+    queryKey: "skills",
+    queryFn: ({ signal }) => {
+      return findSkillsService({ signal });
+    },
+    initialData: [],
+  });
+
   return (
     <>
       <h2 className="head-text">Skills & Experiences</h2>
@@ -47,35 +52,20 @@ export const Skills = () => {
           ))}
         </motion.div>
         <div className="app__skills-exp">
-          {experiences.map((experience) => (
-            <motion.div className="app__skills-exp-item" key={experience.year}>
-              <div className="app__skills-exp-year">
-                <p className="bold-text">{experience.year}</p>
-              </div>
-              <motion.div className="app__skills-exp-works">
-                {experience.works.map((work) => (
-                  <div key={work.name}>
-                    <motion.div
-                      whileInView={{ opacity: [0, 1] }}
-                      transition={{ duration: 0.5 }}
-                      className="app__skills-exp-work"
-                      data-tooltip-id={work.name}
-                    >
-                      <h4 className="bold-text">{work.name}</h4>
-                      <p className="p-text">{work.company}</p>
-                    </motion.div>
-                    <Tooltip
-                      id={work.name}
-                      content={work.desc}
-                      effect="solid"
-                      arrowColor="#fff"
-                      className="skills-tooltip"
-                    />
-                  </div>
-                ))}
-              </motion.div>
-            </motion.div>
-          ))}
+          <ContainerTimeline>
+            {experiences.map((work, index) => (
+              <ItemTimeline key={index}>
+                <DateTimeline>
+                  {work.from}-{work.to}
+                </DateTimeline>
+                <TitleTimeline>{work.jobTitle}</TitleTimeline>
+                <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+                  {work.company}
+                </time>
+                <DescriptionTimeline>{work.description}</DescriptionTimeline>
+              </ItemTimeline>
+            ))}
+          </ContainerTimeline>
         </div>
       </div>
     </>

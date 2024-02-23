@@ -1,29 +1,26 @@
-import { useState } from "react";
-import "./About.scss";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
-import { fetchAboutData } from "./services";
-import { aboutDataAdapter } from "./adapters/about.adapter";
-import { AppWrap } from "../../wrapper/AppWrap.wrapper";
+import { useQuery } from "react-query";
 import { NAVIGATION_ITEMS } from "../../models";
 import { MotionWrap } from "../../wrapper";
+import { AppWrap } from "../../wrapper/AppWrap.wrapper";
+import "./About.scss";
+import { findCertificatesService } from "./services";
 
 export const About = () => {
-  const [aboutData, setAboutData] = useState([]);
-  const getAboutData = async () => {
-    const response = await fetchAboutData();
-    const adaptedData = aboutDataAdapter(response);
-    setAboutData(adaptedData);
-  };
-  useEffect(() => {
-    getAboutData();
-  }, []);
+  const { data: aboutData } = useQuery({
+    queryKey: ["about"],
+    queryFn: ({ signal }) => {
+      return findCertificatesService({ signal });
+    },
+    initialData: [],
+  });
 
   return (
     <>
       <h2 className="head-text">
-        I Know that <span>Good Development</span> <br />
-        means <span>Good Business</span>
+        My Educational Journey:
+        <span> Certificates</span> <br />
+        and<span> Achievements</span>
       </h2>
 
       <div className="app__profiles">
