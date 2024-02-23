@@ -16,6 +16,5 @@ export const workDataAdapter = (data) => {
     };
     return project;
   });
-  console.log("🚀 ~ workDataAdapter ~ response:", response);
   return response;
 };
