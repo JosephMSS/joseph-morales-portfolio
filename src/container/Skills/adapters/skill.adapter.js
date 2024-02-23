@@ -6,7 +6,7 @@ export const skillDataAdapter = (data) => {
   const response = adaptData.map((data) => ({
     name: data.name,
     bgColor: data?.bgColor,
-    icon: imageAdapter(data.icon).auto("format").url() 
+    icon: imageAdapter(data.icon).format("webp").url() 
   }));
   return response;
 };
